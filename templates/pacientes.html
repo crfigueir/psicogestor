@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Pacientes Cadastrados</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      padding: 30px;
+      margin: 0;
+    }
+
+    h1 {
+      color: #6a8caf;
+      margin-bottom: 20px;
+    }
+
+    .top-bar {
+      margin-bottom: 20px;
+    }
+
+    .top-bar a {
+      text-decoration: none;
+      background-color: #6a8caf;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin-right: 10px;
+      transition: 0.3s;
+      font-weight: bold;
+    }
+
+    .top-bar a:hover {
+      background-color: #5a7a9a;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0px 3px 8px rgba(0,0,0,0.1);
+    }
+
+    th {
+      background-color: #6a8caf;
+      color: white;
+      padding: 12px;
+      text-align: left;
+    }
+
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+      color: #333;
+    }
+
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+
+    .btn {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-edit {
+      background-color: #3498db;
+      color: white;
+    }
+
+    .btn-delete {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .empty {
+      margin-top: 20px;
+      font-style: italic;
+      color: #777;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Pacientes Cadastrados</h1>
+
+<div class="top-bar">
+  <a href="/cadastro">+ Novo Paciente</a>
+  <a href="/dashboard">Voltar</a>
+</div>
+
+{% if pacientes %}
+<table>
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Telefone</th>
+      <th>E-mail</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for p in pacientes %}
+    <tr>
+      <td>{{ p['nome'] }}</td>
+      <td>{{ p['telefone'] }}</td>
+      <td>{{ p['email'] }}</td>
+      <td>
+        <a href="/editar/{{ p['id'] }}" class="btn btn-edit">Editar</a>
+
+        <a href="/excluir/{{ p['id'] }}"
+           class="btn btn-delete"
+           onclick="return confirm('Deseja realmente excluir este paciente?')">
+           Excluir
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% else %}
+  <p class="empty">Nenhum paciente encontrado no sistema.</p>
+{% endif %}
+
+</body>
+</html>

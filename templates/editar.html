@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Paciente</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #f4f6f8;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+
+    button {
+      background: #6a8caf;
+      color: white;
+      padding: 10px;
+      border: none;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>Editar Paciente</h2>
+
+  <form method="POST">
+
+    <input type="text" name="nome" value="{{ paciente[0] }}">
+    <input type="text" name="telefone" value="{{ paciente[1] }}">
+    <input type="email" name="email" value="{{ paciente[2] }}">
+
+    <button type="submit">Salvar</button>
+
+  </form>
+</div>
+
+</body>
+</html>

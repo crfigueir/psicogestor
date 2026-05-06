@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Agenda de Atendimentos</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    padding: 30px;
+    margin: 0;
+  }
+
+  h1 { color: #6a8caf; }
+
+  .top-bar {
+    margin-bottom: 20px;
+  }
+
+  .top-bar a {
+    text-decoration: none;
+    background-color: #6a8caf;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-right: 10px;
+    font-size: 14px;
+  }
+
+  form {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0px 3px 8px rgba(0,0,0,0.1);
+    max-width: 500px;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    display: block;
+    box-sizing: border-box;
+  }
+
+  button {
+    margin-top: 15px;
+    padding: 12px;
+    width: 100%;
+    background: #6a8caf;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  button:hover {
+    background: #5a7a9a;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  th {
+    background: #6a8caf;
+    color: white;
+    padding: 10px;
+    text-align: left;
+  }
+
+  td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .btn-excluir {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    width: auto;
+  }
+
+  .btn-excluir:hover {
+    background: #c0392b;
+  }
+
+</style>
+</head>
+
+<body>
+
+<h1>Agenda de Atendimentos</h1>
+
+<div class="top-bar">
+  <a href="/dashboard">Voltar</a>
+</div>
+
+<form action="/agenda" method="POST">
+
+  <label>Paciente</label>
+  <select name="paciente" required>
+    {% for p in pacientes %}
+      <option value="{{ p['id'] }}">{{ p['nome'] }}</option>
+    {% endfor %}
+  </select>
+
+  <label>Data</label>
+  <input type="date" name="data" required>
+
+  <label>Hora</label>
+  <input type="time" name="hora" required>
+
+  <label>Tipo de atendimento</label>
+  <select name="tipo">
+    <option value="online">Online</option>
+    <option value="presencial">Presencial</option>
+  </select>
+
+  <label>Link (se for online)</label>
+  <input type="text" name="link" placeholder="https://zoom.us/...">
+
+  <label>Observações</label>
+  <textarea name="observacoes"></textarea>
+
+  <button type="submit">Agendar</button>
+
+</form>
+
+<h2>Atendimentos</h2>
+
+<table>
+  <tr>
+    <th>Paciente</th>
+    <th>Data</th>
+    <th>Hora</th>
+    <th>Tipo</th>
+    <th>Ações</th>
+  </tr>
+
+  {% for a in atendimentos %}
+  <tr>
+    <td>{{ a['nome'] }}</td>
+    <td>{{ a['data'] }}</td>
+    <td>{{ a['hora'] }}</td>
+
+    <td>
+      {% if a['tipo'] == 'online' %}
+        <span style="color:green;font-weight:bold;">● Online</span>
+      {% else %}
+        <span style="color:gray;">Presencial</span>
+      {% endif %}
+    </td>
+
+    <td>
+      {% if a['tipo'] == 'online' and a['link'] %}
+        <a href="{{ a['link'] }}" target="_blank">
+          <button style="background:#2ecc71;color:white;">Entrar</button>
+        </a>
+      {% endif %}
+
+      <a href="/excluir_atendimento/{{ a['id'] }}">
+        <button style="background:#e74c3c;color:white;">Excluir</button>
+      </a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Pacientes</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+    }
+
+    /* HEADER FIXO */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #6a8caf;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .btn-voltar {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn-voltar:hover {
+      text-decoration: underline;
+    }
+
+    /* CONTEÚDO */
+    .container {
+      max-width: 600px;
+      margin: 100px auto 40px auto; /* espaço por causa do header fixo */
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #6a8caf;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px;
+      background-color: #6a8caf;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #5a7a9a;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- HEADER NOVO -->
+<div class="header">
+  <button class="btn-voltar" onclick="window.location.href='/dashboard'">
+    ← Voltar
+  </button>
+
+  <h1>PsicoGestor - Cadastro</h1>
+
+  <!-- espaço vazio pra alinhar -->
+  <div></div>
+</div>
+
+<div class="container">
+  <h2>Novo Paciente</h2>
+
+  <form action="/cadastro" method="POST">
+    <label>Nome completo</label>
+    <input type="text" name="nome" required placeholder="Digite o nome completo">
+
+    <label>Data de nascimento</label>
+    <input type="date" name="data_nascimento">
+
+    <label>Telefone</label>
+    <input type="text" name="telefone" placeholder="(00) 00000-0000">
+
+    <label>E-mail</label>
+    <input type="email" name="email" placeholder="exemplo@email.com">
+
+    <label>Observações</label>
+    <textarea name="observacoes" rows="4" placeholder="Alguma observação clínica..."></textarea>
+
+    <button type="submit">Cadastrar Paciente</button>
+  </form>
+</div>
+
+</body>
+</html>

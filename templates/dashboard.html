@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      background: #f4f6f8;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 220px;
+      height: 100vh;
+      background-color: #6a8caf;
+      color: white;
+      padding-top: 20px;
+      position: fixed;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      padding: 12px 20px;
+      text-decoration: none;
+    }
+
+    .sidebar a:hover {
+      background-color: #5a7a9a;
+    }
+
+    /* CONTEÚDO */
+    .content {
+      margin-left: 220px;
+      padding: 30px;
+      width: calc(100% - 220px);
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .cards {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 3px 8px rgba(0,0,0,0.1);
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .card h3 {
+      margin: 0;
+      color: #6a8caf;
+      font-size: 16px;
+    }
+
+    .card p {
+      font-size: 26px;
+      font-weight: bold;
+      margin-top: 10px;
+      margin-bottom: 0;
+    }
+
+    .actions {
+      margin-top: 40px;
+    }
+
+    .actions h3 {
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .btn-action {
+      display: inline-block;
+      margin-right: 10px;
+      background: #6a8caf;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    .btn-action:hover {
+      background: #5a7a9a;
+    }
+
+    /* AGENDA */
+    .agenda-section {
+      margin-top: 40px;
+    }
+
+    .table-container {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0px 3px 8px rgba(0,0,0,0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      background-color: #6a8caf;
+      color: white;
+      text-align: left;
+      padding: 12px 15px;
+    }
+
+    td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #eee;
+      color: #555;
+    }
+
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+
+    .no-data {
+      padding: 20px;
+      color: #888;
+      font-style: italic;
+    }
+
+    /* DESTAQUE PARA HOJE */
+    .hoje {
+      background-color: #eaf3ff;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="sidebar">
+  <h2>PsicoGestor</h2>
+
+  <a href="/dashboard">🏠 Início</a>
+  <a href="/pacientes">👤 Pacientes</a>
+  <a href="/cadastro">➕ Novo Cadastro</a>
+  <a href="/agenda">📅 Agenda</a>
+  <a href="/logout">🚪 Sair</a>
+</div>
+
+<div class="content">
+
+  <div class="top">
+    <h2>Olá, {{ usuario['nome'] }}</h2>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <h3>Pacientes cadastrados</h3>
+      <p>{{ total_pacientes }}</p>
+    </div>
+
+    <div class="card">
+      <h3>Próximos atendimentos</h3>
+      <p>{{ atendimentos|length }}</p>
+    </div>
+  </div>
+
+  <div class="actions">
+    <h3>Ações rápidas</h3>
+    <a href="/cadastro" class="btn-action">+ Novo Paciente</a>
+    <a href="/agenda" class="btn-action">📅 Agendar Horário</a>
+  </div>
+
+  <!-- AGENDA -->
+  <div class="agenda-section">
+    <h3>📅 Próximos na Agenda</h3>
+
+    <div class="table-container">
+      {% if atendimentos %}
+      <table>
+        <thead>
+          <tr>
+            <th>Paciente</th>
+            <th>Data</th>
+            <th>Hora</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for at in atendimentos %}
+          <tr>
+            <td>{{ at['paciente_nome'] }}</td>
+            <td>{{ at['data'] }}</td>
+            <td>{{ at['hora'] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="no-data">
+        Nenhum atendimento futuro agendado.
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

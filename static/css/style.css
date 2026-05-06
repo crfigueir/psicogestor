@@ -1,0 +1,47 @@
+/* RESET */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* FUNDO */
+.bg-gradient {
+  background: linear-gradient(135deg, #6a8caf, #a3c4dc);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* CONTAINER */
+.container {
+  text-align: center;
+}
+
+/* TÍTULOS */
+.title {
+  font-size: 48px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 20px;
+  color: #f0f0f0;
+  margin-bottom: 40px;
+}
+
+/* BOTÃO */
+.btn {
+  background-color: white;
+  color: #6a8caf;
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-size: 16px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background-color: #f0f0f0;
+}
