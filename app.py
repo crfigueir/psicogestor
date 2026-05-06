@@ -57,14 +57,15 @@ def criar_tabela():
 criar_tabela()
 
 # ------------------------
-# LOGIN / DASHBOARD
+# INDEX
 # ------------------------
-
 @app.route('/')
 def index():
     return render_template('index.html')
 
-
+# ------------------------
+# LOGIN
+# ------------------------
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -86,7 +87,34 @@ def login():
 
     return render_template('login.html')
 
+# ------------------------
+# 🔥 CADASTRO USUÁRIO
+# ------------------------
+@app.route('/cadastro_usuario', methods=['GET', 'POST'])
+def cadastro_usuario():
+    if request.method == 'POST':
+        nome = request.form.get('nome')
+        email = request.form.get('email')
+        senha = request.form.get('senha')
 
+        conn = conectar()
+        cursor = conn.cursor()
+
+        cursor.execute(
+            "INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)",
+            (nome, email, senha)
+        )
+
+        conn.commit()
+        conn.close()
+
+        return redirect('/login')
+
+    return render_template('cadastro_usuario.html')
+
+# ------------------------
+# DASHBOARD
+# ------------------------
 @app.route('/dashboard')
 def dashboard():
     if 'usuario_id' not in session:
@@ -124,7 +152,6 @@ def dashboard():
 # ------------------------
 # PACIENTES
 # ------------------------
-
 @app.route('/pacientes')
 def pacientes():
     if 'usuario_id' not in session:
@@ -137,9 +164,7 @@ def pacientes():
     lista = cursor.fetchall()
 
     conn.close()
-
     return render_template('pacientes.html', pacientes=lista)
-
 
 @app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
@@ -168,7 +193,6 @@ def cadastro():
 
     return render_template('cadastro.html')
 
-
 @app.route('/excluir/<int:id>')
 def excluir(id):
     if 'usuario_id' not in session:
@@ -187,7 +211,6 @@ def excluir(id):
 # ------------------------
 # AGENDA
 # ------------------------
-
 @app.route('/agenda', methods=['GET', 'POST'])
 def agenda():
     if 'usuario_id' not in session:
@@ -212,7 +235,6 @@ def agenda():
 
         conn.commit()
         conn.close()
-
         return redirect('/agenda')
 
     cursor.execute("SELECT id, nome FROM pacientes WHERE usuario_id=?", (session['usuario_id'],))
@@ -231,7 +253,6 @@ def agenda():
     conn.close()
 
     return render_template('agenda.html', pacientes=pacientes, atendimentos=atendimentos)
-
 
 @app.route('/excluir_atendimento/<int:id>')
 def excluir_atendimento(id):
@@ -252,25 +273,33 @@ def excluir_atendimento(id):
     return redirect('/agenda')
 
 # ------------------------
-# 🔥 API (REQUISITO DO PROJETO)
+# 🔥 API SEGURA
 # ------------------------
 
 @app.route('/api/pacientes')
 def api_pacientes():
+    if 'usuario_id' not in session:
+        return jsonify({"erro": "não autorizado"}), 401
+
     conn = conectar()
     cursor = conn.cursor()
 
-    cursor.execute("SELECT id, nome, telefone, email FROM pacientes")
-    pacientes = cursor.fetchall()
+    cursor.execute(
+        "SELECT id, nome, telefone, email FROM pacientes WHERE usuario_id=?",
+        (session['usuario_id'],)
+    )
 
+    pacientes = cursor.fetchall()
     lista = [dict(p) for p in pacientes]
 
     conn.close()
     return jsonify(lista)
 
-
 @app.route('/api/atendimentos')
 def api_atendimentos():
+    if 'usuario_id' not in session:
+        return jsonify({"erro": "não autorizado"}), 401
+
     conn = conectar()
     cursor = conn.cursor()
 
@@ -278,10 +307,10 @@ def api_atendimentos():
         SELECT a.id, p.nome as paciente, a.data, a.hora, a.tipo
         FROM atendimentos a
         JOIN pacientes p ON a.paciente_id = p.id
-    ''')
+        WHERE a.usuario_id=?
+    ''', (session['usuario_id'],))
 
     atendimentos = cursor.fetchall()
-
     lista = [dict(a) for a in atendimentos]
 
     conn.close()
@@ -290,12 +319,13 @@ def api_atendimentos():
 # ------------------------
 # LOGOUT
 # ------------------------
-
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect('/login')
 
-
+# ------------------------
+# RUN
+# ------------------------
 if __name__ == '__main__':
     app.run()
