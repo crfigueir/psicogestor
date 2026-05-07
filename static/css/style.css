@@ -11,11 +11,15 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 /* CONTAINER */
 .container {
   text-align: center;
+  width: 100%;
+  max-width: 700px;
 }
 
 /* TÍTULOS */
@@ -40,8 +44,49 @@ body {
   font-size: 16px;
   text-decoration: none;
   transition: 0.3s;
+  display: inline-block;
 }
 
 .btn:hover {
   background-color: #f0f0f0;
+}
+
+/* =========================
+   RESPONSIVIDADE MOBILE
+========================= */
+
+@media (max-width: 768px){
+
+  body{
+    padding: 0;
+  }
+
+  .bg-gradient{
+    height: auto;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .container{
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  .title{
+    font-size: 32px;
+  }
+
+  .subtitle{
+    font-size: 18px;
+    margin-bottom: 30px;
+  }
+
+  .btn{
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+
 }

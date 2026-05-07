@@ -1,54 +1,149 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>Editar Paciente</title>
 
   <style>
-    body {
-      font-family: Arial;
-      background: #f4f6f8;
+
+    body{
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
       padding: 30px;
     }
 
-    .container {
-      max-width: 500px;
+    .container{
+      max-width: 700px;
       margin: auto;
       background: white;
-      padding: 20px;
-      border-radius: 10px;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0px 3px 10px rgba(0,0,0,0.1);
     }
 
-    input {
+    h1{
+      color: #6a8caf;
+      margin-bottom: 25px;
+    }
+
+    label{
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input,
+    textarea{
       width: 100%;
-      padding: 10px;
-      margin: 10px 0;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 14px;
     }
 
-    button {
-      background: #6a8caf;
-      color: white;
-      padding: 10px;
+    textarea{
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .buttons{
+      margin-top: 25px;
+    }
+
+    button,
+    .btn-voltar{
+      padding: 12px 18px;
       border: none;
-      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      margin-right: 10px;
     }
+
+    button{
+      background-color: #6a8caf;
+      color: white;
+    }
+
+    button:hover{
+      background-color: #5a7a9a;
+    }
+
+    .btn-voltar{
+      background-color: #95a5a6;
+      color: white;
+    }
+
+    .btn-voltar:hover{
+      background-color: #7f8c8d;
+    }
+
   </style>
 </head>
 
 <body>
 
 <div class="container">
-  <h2>Editar Paciente</h2>
+
+  <h1>Editar Paciente</h1>
 
   <form method="POST">
 
-    <input type="text" name="nome" value="{{ paciente[0] }}">
-    <input type="text" name="telefone" value="{{ paciente[1] }}">
-    <input type="email" name="email" value="{{ paciente[2] }}">
+    <label>Nome</label>
+    <input
+      type="text"
+      name="nome"
+      value="{{ paciente['nome'] }}"
+      required
+    >
 
-    <button type="submit">Salvar</button>
+    <label>Data de nascimento</label>
+    <input
+      type="date"
+      name="data_nascimento"
+      value="{{ paciente['data_nascimento'] }}"
+    >
+
+    <label>Telefone</label>
+    <input
+      type="text"
+      name="telefone"
+      value="{{ paciente['telefone'] }}"
+    >
+
+    <label>E-mail</label>
+    <input
+      type="email"
+      name="email"
+      value="{{ paciente['email'] }}"
+    >
+
+    <label>Observações</label>
+    <textarea
+      name="observacoes"
+    >{{ paciente['observacoes'] }}</textarea>
+
+    <div class="buttons">
+
+      <button type="submit">
+        Salvar Alterações
+      </button>
+
+      <a href="/pacientes" class="btn-voltar">
+        Voltar
+      </a>
+
+    </div>
 
   </form>
+
 </div>
 
 </body>
